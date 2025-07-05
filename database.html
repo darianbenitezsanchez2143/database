@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Strata Dashboard Spreadsheet</title>
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; background:#f4f7fa; color:#333; }
+    .site-header { background:#fff; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+    .site-header .logo { font-size:1.5rem; font-weight:bold; color:#000; }
+    .site-header nav ul { list-style:none; display:flex; gap:2rem; }
+    .site-header nav a { text-decoration:none; color:#333; font-weight:500; }
+    .site-header .user-actions { display:flex; align-items:center; gap:1rem; }
+    .site-header .avatar { width:32px; height:32px; border-radius:50%; background:#ddd; }
+    .site-header .logout { background:#7c3aed; color:#fff; border:none; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; font-weight:500; }
+    main { padding:2rem; }
+    .table-wrapper { overflow-x:auto; background:#fff; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    table { width:100%; border-collapse:collapse; }
+    thead { background:#1e3a8a; color:#fff; }
+    th, td { padding:0.75rem 1rem; border-bottom:1px solid #e2e8f0; text-align:left; white-space:nowrap; }
+    tbody tr:nth-child(even) { background:#f9f9f9; }
+    tbody tr:hover { background:#e2e8f0; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">strata.</div>
+    <nav>
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Explore</a></li>
+        <li><a href="#">Wallet</a></li>
+        <li><a href="#">Rewards</a></li>
+      </ul>
+    </nav>
+    <div class="user-actions">
+      <div class="avatar"></div>
+      <button class="logout">Log Out</button>
+    </div>
+  </header>
+  <main>
+    <h1>Student Credentials</h1>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Grade</th>
+            <th>Points</th>
+            <th>Credential</th>
+            <th>Issuer</th>
+            <th>Issue Date</th>
+            <th>Expiration Date</th>
+            <th>Tracks</th>
+            <th>College is 4U.items</th>
+            <th>College is 4U.progress</th>
+            <th>Career Readiness.items</th>
+            <th>Career Readiness.progress</th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    const rows = [
+  {
+    "Name": "Student-20901",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "10",
+    "Credential": "Career Readiness",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/02/2025",
+    "Expiration Date": "01/02/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20902",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "20",
+    "Credential": "SAT ",
+    "Issuer": "Brophy",
+    "Issue Date": "01/03/2025",
+    "Expiration Date": "01/03/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20903",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "30",
+    "Credential": "ACT",
+    "Issuer": "Brophy",
+    "Issue Date": "01/04/2025",
+    "Expiration Date": "01/04/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20904",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "40",
+    "Credential": "Introductory Excel ",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/05/2025",
+    "Expiration Date": "01/05/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20905",
+    "ID": "123456789",
+    "Grade": "9",
+    "Points": "50",
+    "Credential": "Basic Python ",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/06/2025",
+    "Expiration Date": "01/06/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20906",
+    "ID": "123456789",
+    "Grade": "10",
+    "Points": "60",
+    "Credential": "Career Readiness",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/07/2025",
+    "Expiration Date": "01/07/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20907",
+    "ID": "123456789",
+    "Grade": "11",
+    "Points": "70",
+    "Credential": "Letters of Recommentation",
+    "Issuer": "Brophy",
+    "Issue Date": "01/08/2025",
+    "Expiration Date": "01/08/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20908",
+    "ID": "123456789",
+    "Grade": "12",
+    "Points": "80",
+    "Credential": "Career Readiness",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/09/2025",
+    "Expiration Date": "01/09/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20909",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "90",
+    "Credential": "Career Readiness",
+    "Issuer": "Camp Catanese",
+    "Issue Date": "01/10/2025",
+    "Expiration Date": "01/10/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20910",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "100",
+    "Credential": "Letters of Recommentation",
+    "Issuer": "Brophy",
+    "Issue Date": "01/11/2025",
+    "Expiration Date": "01/11/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20911",
+    "ID": "123456789",
+    "Grade": "8",
+    "Points": "110",
+    "Credential": "ACT",
+    "Issuer": "Brophy",
+    "Issue Date": "01/12/2025",
+    "Expiration Date": "01/12/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  },
+  {
+    "Name": "Student-20912",
+    "ID": "123456789",
+    "Grade": "9",
+    "Points": "120",
+    "Credential": "Basic Python ",
+    "Issuer": "Brophy",
+    "Issue Date": "01/13/2025",
+    "Expiration Date": "01/13/2026",
+    "Tracks": "College is 4U, Career Readiness",
+    "College is 4U.items": "Research HS Honors Programs",
+    "College is 4U.progress": "5",
+    "Career Readiness.items": "",
+    "Career Readiness.progress": ""
+  }
+];
+    const tbody = document.getElementById("data-body");
+    rows.forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${r.Name}</td>
+        <td>${r.ID}</td>
+        <td>${r.Grade}</td>
+        <td>${r.Points}</td>
+        <td>${r.Credential}</td>
+        <td>${r.Issuer}</td>
+        <td>${r["Issue Date"]}</td>
+        <td>${r["Expiration Date"]}</td>
+        <td>${r.Tracks}</td>
+        <td>${r["College is 4U.items"]}</td>
+        <td>${r["College is 4U.progress"]}</td>
+        <td>${r["Career Readiness.items"]}</td>
+        <td>${r["Career Readiness.progress"]}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
